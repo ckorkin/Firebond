@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebond — огнеупоры для литейной промышленности</title>
+    <style>
+        /* ---------- Базовые стили ---------- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            background: #0a0e17;
+            color: #e8edf5;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        /* ---------- Шапка ---------- */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 12px 0;
+            background: rgba(10, 14, 23, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 2px solid rgba(196, 69, 54, 0.5);
+            z-index: 1000;
+        }
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: #c44536;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 20px;
+            color: white;
+            box-shadow: 0 0 20px rgba(196,69,54,0.3);
+        }
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+        }
+        .logo-text small {
+            font-weight: 400;
+            font-size: 14px;
+            opacity: 0.7;
+            display: block;
+        }
+        .nav-links {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .nav-links a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 4px;
+            border-bottom: 2px solid transparent;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            color: #fff;
+            border-bottom-color: #c44536;
+            background: rgba(196,69,54,0.15);
+        }
+        /* ---------- Герой ---------- */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            margin-top: 72px;
+            overflow: hidden;
+        }
+        .hero-bg {
+            position: absolute;
+            top: -10%; left: -10%;
+            width: 120%; height: 120%;
+            background: url('https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=1600&q=80') center/cover no-repeat;
+            filter: brightness(0.65) saturate(1.2) contrast(1.1);
+            z-index: 0;
+            animation: slowZoom 20s ease-in-out infinite alternate;
+        }
+        @keyframes slowZoom {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.08); }
+        }
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(10,14,23,0.4) 0%, rgba(10,14,23,0.1) 60%, rgba(0,0,0,0.2) 100%);
+            z-index: 1;
+            pointer-events: none;
+        }
+        .sparks {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+        .spark {
+            position: absolute;
+            width: 4px; height: 4px;
+            background: #ffaa33;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #ff8800;
+            animation: sparkFloat linear infinite;
+            opacity: 0;
+        }
+        @keyframes sparkFloat {
+            0% { transform: translateY(100vh) scale(0.5) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1.3) rotate(720deg); opacity: 0; }
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+            max-width: 720px;
+            padding: 40px 0;
+        }
+        .hero-content h1 {
+            font-size: 62px;
+            font-weight: 900;
+            line-height: 1.05;
+            text-shadow: 0 4px 40px rgba(0,0,0,0.6);
+        }
+        .hero-content h1 span {
+            color: #c44536;
+            display: block;
+            text-shadow: 0 0 30px rgba(196,69,54,0.3);
+        }
+        .hero-content p {
+            font-size: 22px;
+            opacity: 0.95;
+            margin: 20px 0 35px;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.7);
+            max-width: 550px;
+            font-weight: 300;
+        }
+        .btn-primary {
+            display: inline-block;
+            background: #c44536;
+            color: white;
+            padding: 18px 48px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 18px;
+            text-decoration: none;
+            transition: 0.25s;
+            box-shadow: 0 4px 30px rgba(196,69,54,0.4);
+            cursor: pointer;
+            border: none;
+        }
+        .btn-primary:hover {
+            background: #a83426;
+            transform: scale(1.05);
+            box-shadow: 0 8px 40px rgba(196,69,54,0.6);
+        }
+        .hero-stats {
+            display: flex;
+            gap: 50px;
+            margin-top: 40px;
+        }
+        .hero-stats-item .number {
+            font-size: 42px;
+            font-weight: 800;
+            color: #c44536;
+            display: block;
+            text-shadow: 0 0 20px rgba(196,69,54,0.2);
+        }
+        .hero-stats-item .label {
+            font-size: 16px;
+            opacity: 0.7;
+        }
+        /* ---------- Общие секции ---------- */
+        .section {
+            padding: 80px 0;
+        }
+        .section-dark {
+            background: #0f151f;
+        }
+        .section-title {
+            font-size: 38px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 12px;
+        }
+        .section-subtitle {
+            font-size: 18px;
+            color: #94a3b8;
+            margin-bottom: 40px;
+            max-width: 700px;
+        }
+        /* ---------- Почему мы ---------- */
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        .why-item {
+            background: rgba(255,255,255,0.04);
+            border-radius: 16px;
+            padding: 30px 24px;
+            border: 1px solid rgba(255,255,255,0.06);
+            text-align: center;
+            transition: 0.3s;
+        }
+        .why-item:hover {
+            background: rgba(196,69,54,0.08);
+            border-color: #c44536;
+            transform: translateY(-4px);
+        }
+        .why-item .icon { font-size: 40px; margin-bottom: 16px; }
+        .why-item h4 { font-size: 20px; color: #fff; margin-bottom: 8px; }
+        .why-item p { color: #94a3b8; font-size: 15px; }
+        /* ---------- Продукты ---------- */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        .product-card {
+            background: rgba(255,255,255,0.04);
+            border-radius: 16px;
+            padding: 24px 20px;
+            border: 1px solid rgba(255,255,255,0.06);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .product-card:hover {
+            background: rgba(196,69,54,0.08);
+            border-color: #c44536;
+            transform: translateY(-4px);
+        }
+        .product-card .icon { font-size: 32px; margin-bottom: 10px; }
+        .product-card .badge {
+            display: inline-block;
+            background: #c44536;
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 12px;
+            border-radius: 30px;
+            margin-bottom: 8px;
+        }
+        .product-card h4 { font-size: 18px; color: #fff; margin-bottom: 6px; }
+        .product-card p { color: #94a3b8; font-size: 14px; }
+        .product-card .specs {
+            font-size: 13px;
+            color: #64748b;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            padding-top: 12px;
+            margin-top: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 16px;
+        }
+        .product-card .specs span { display: flex; align-items: center; gap: 4px; }
+        /* ---------- Детальная карточка ---------- */
+        .product-detail {
+            background: rgba(255,255,255,0.06);
+            border-radius: 16px;
+            padding: 40px;
+            max-width: 900px;
+            margin: 0 auto;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .product-detail .back-link {
+            color: #c44536;
+            cursor: pointer;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        .product-detail .back-link:hover { text-decoration: underline; }
+        .product-detail h2 { font-size: 28px; color: #fff; margin-bottom: 8px; }
+        .product-detail .desc { color: #94a3b8; margin: 20px 0; line-height: 1.8; }
+        .product-detail .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px 40px;
+        }
+        .product-detail .detail-grid .item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .product-detail .detail-grid .item .label { color: #94a3b8; font-weight: 500; }
+        .product-detail .detail-grid .item .value { color: #fff; font-weight: 600; }
+        /* ---------- Применение (матрица) ---------- */
+        .matrix-section {
+            background: #0f151f;
+        }
+        .matrix-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+        .matrix-block {
+            background: rgba(255,255,255,0.04);
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .matrix-block h3 {
+            font-size: 24px;
+            color: #c44536;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        .matrix-block table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        .matrix-block th, .matrix-block td {
+            padding: 10px 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            text-align: left;
+        }
+        .matrix-block th { color: #94a3b8; font-weight: 600; }
+        .matrix-block td { color: #e8edf5; }
+        .matrix-block .highlight { color: #c44536; font-weight: 600; }
+        /* ---------- Услуги производителя ---------- */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .service-item {
+            background: rgba(255,255,255,0.04);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .service-item .icon { font-size: 30px; margin-bottom: 10px; }
+        .service-item h5 { color: #fff; font-size: 16px; margin-bottom: 4px; }
+        .service-item p { color: #94a3b8; font-size: 13px; }
+        /* ---------- Контакты ---------- */
+        .contacts-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+        .contacts-info p { margin-bottom: 8px; font-size: 16px; }
+        .contacts-info strong { color: #fff; }
+        .contacts-info .manager {
+            background: rgba(255,255,255,0.04);
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 12px;
+            border-left: 3px solid #c44536;
+        }
+        .contacts-map {
+            border-radius: 16px;
+            overflow: hidden;
+            height: 220px;
+            border: 1px solid #334155;
+            position: relative;
+        }
+        .contacts-map iframe {
+            width: 100%; height: 100%;
+            border: 0;
+        }
+        .contacts-map .map-link {
+            position: absolute;
+            bottom: 12px; right: 12px;
+            background: rgba(10,14,23,0.8);
+            backdrop-filter: blur(4px);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+            color: #fff;
+            text-decoration: none;
+            border: 1px solid rgba(255,255,255,0.15);
+            transition: 0.3s;
+        }
+        .contacts-map .map-link:hover { background: #c44536; border-color: #c44536; }
+        /* ---------- Футер ---------- */
+        .footer {
+            background: #0a0e17;
+            color: rgba(255,255,255,0.5);
+            padding: 30px 0 20px;
+            border-top: 1px solid #1e293b;
+        }
+        .footer .container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+            font-size: 14px;
+        }
+        .footer a { color: rgba(255,255,255,0.4); text-decoration: none; }
+        .footer a:hover { color: #fff; }
+        /* ---------- Адаптивность ---------- */
+        @media (max-width: 992px) {
+            .hero-content h1 { font-size: 44px; }
+            .hero-stats { gap: 30px; flex-wrap: wrap; }
+            .matrix-grid { grid-template-columns: 1fr; }
+            .contacts-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            .header .container { flex-direction: column; align-items: flex-start; }
+            .nav-links { width: 100%; justify-content: space-around; gap: 0; }
+            .nav-links a { padding: 8px 12px; font-size: 14px; }
+            .hero { margin-top: 110px; min-height: 90vh; }
+            .hero-content h1 { font-size: 32px; }
+            .hero-content p { font-size: 18px; }
+            .section-title { font-size: 28px; }
+            .product-detail .detail-grid { grid-template-columns: 1fr; }
+            .product-detail { padding: 20px; }
+            .hero-stats-item .number { font-size: 28px; }
+            .contacts-map { height: 180px; }
+        }
+        @media (max-width: 480px) {
+            .hero-content h1 { font-size: 28px; }
+            .hero-content p { font-size: 16px; }
+            .hero-stats { gap: 20px; }
+            .hero-stats-item .number { font-size: 24px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ШАПКА -->
+    <header class="header">
+        <div class="container">
+            <div class="logo" onclick="showPage('home'); return false;">
+                <div class="logo-icon">F</div>
+                <div class="logo-text">Firebond <small>огнеупорные материалы</small></div>
+            </div>
+            <nav class="nav-links">
+                <a href="#" data-page="home" class="active" onclick="showPage('home'); return false;">Главная</a>
+                <a href="#" data-page="products" onclick="showPage('products'); return false;">Продукция</a>
+                <a href="#" data-page="application" onclick="showPage('application'); return false;">Применение</a>
+                <a href="#" data-page="about" onclick="showPage('about'); return false;">О компании</a>
+                <a href="#" data-page="contacts" onclick="showPage('contacts'); return false;">Контакты</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- СТРАНИЦЫ (по умолчанию скрыты, показывается только активная) -->
+    <!-- ============================================================ -->
+    <!-- СТРАНИЦА: ГЛАВНАЯ -->
+    <!-- ============================================================ -->
+    <section id="home" class="page active">
+        <div class="hero">
+            <div class="hero-bg"></div>
+            <div class="hero-overlay"></div>
+            <div class="sparks" id="sparksContainer"></div>
+            <div class="container" style="position:relative; z-index:2; width:100%;">
+                <div class="hero-content">
+                    <h1>Огнеупоры для<br><span>индукционных печей</span></h1>
+                    <p>Противопригарные покрытия, футеровочные массы, бетонные смеси — всё для литейного производства.</p>
+                    <a href="#" class="btn-primary" onclick="showPage('products'); return false;">Смотреть продукцию</a>
+                    <div class="hero-stats">
+                        <div class="hero-stats-item"><span class="number">15+</span><span class="label">лет на рынке</span></div>
+                        <div class="hero-stats-item"><span class="number">8 000+</span><span class="label">тонн продукции</span></div>
+                        <div class="hero-stats-item"><span class="number">300+</span><span class="label">партнёров</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Блок "Почему мы" на главной -->
+        <div class="section section-dark">
+            <div class="container">
+                <h2 class="section-title">Почему выбирают Firebond</h2>
+                <p class="section-subtitle">Мы — российский производитель, который понимает потребности местного рынка.</p>
+                <div class="why-grid">
+                    <div class="why-item">
+                        <div class="icon">🧪</div>
+                        <h4>Инновации и наука</h4>
+                        <p>Собственные рецептуры и лабораторные испытания.</p>
+                    </div>
+                    <div class="why-item">
+                        <div class="icon">🛠️</div>
+                        <h4>Техническая экспертиза</h4>
+                        <p>Поддержка от подбора материала до настройки технологии.</p>
+                    </div>
+                    <div class="why-item">
+                        <div class="icon">🏭</div>
+                        <h4>Российский производитель</h4>
+                        <p>Работаем напрямую, без посредников.</p>
+                    </div>
+                    <div class="why-item">
+                        <div class="icon">🤝</div>
+                        <h4>Надёжный партнёр</h4>
+                        <p>Долгосрочные отношения и ответственность за качество.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Призыв к действию -->
+        <div class="cta-section" style="background:linear-gradient(135deg,#0b2b4a,#1a3f5e); padding:60px 0; text-align:center; border-top:3px solid #c44536; border-bottom:3px solid #c44536;">
+            <div class="container">
+                <h2 style="font-size:36px; font-weight:700; margin-bottom:12px;">Готовы к сотрудничеству?</h2>
+                <p style="font-size:18px; opacity:0.8; max-width:600px; margin:0 auto 30px;">Получите коммерческое предложение и техническую консультацию.</p>
+                <a href="#" class="btn-primary" onclick="showPage('contacts'); return false;">Связаться</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- СТРАНИЦА: ПРОДУКЦИЯ -->
+    <!-- ============================================================ -->
+    <section id="products" class="page section section-dark">
+        <div class="container">
+            <h2 class="section-title">Продукция</h2>
+            <p class="section-subtitle">Полный каталог огнеупорных материалов Firebond.</p>
+            <div id="product-list" class="product-grid"></div>
+            <div id="product-detail" style="display:none; margin-top:40px;">
+                <div class="product-detail">
+                    <span class="back-link" onclick="hideProduct(); return false;">← Назад к списку</span>
+                    <div id="product-detail-content"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- СТРАНИЦА: ПРИМЕНЕНИЕ (МАТРИЦА) -->
+    <!-- ============================================================ -->
+    <section id="application" class="page matrix-section section">
+        <div class="container">
+            <h2 class="section-title">Применение продукции</h2>
+            <p class="section-subtitle">Матрица применения для индукционных печей и литейных ковшей.</p>
+            <div class="matrix-grid">
+                <!-- Индукционная печь -->
+                <div class="matrix-block">
+                    <h3>🔥 Индукционная тигельная печь</h3>
+                    <table>
+                        <tr><th>Зона</th><th>Рекомендуемый продукт</th></tr>
+                        <tr><td>Рабочая футеровка</td><td>MIX FS98 / FS981 / FS982 / FS984, MIX FA85M</td></tr>
+                        <tr><td>Жёлоб и воротник</td><td>CAST FR94, RAM FA90, Plast R90, Plast FS901</td></tr>
+                        <tr><td>Крышка</td><td>CAST FR94</td></tr>
+                        <tr><td>Обмазка индуктора</td><td>INMIX 93</td></tr>
+                        <tr><td>Конструкционные элементы</td><td>CAST FR94</td></tr>
+                    </table>
+                </div>
+                <!-- Литейный ковш -->
+                <div class="matrix-block">
+                    <h3>⚙️ Литейный ковш</h3>
+                    <table>
+                        <tr><th>Зона</th><th>Рекомендуемый продукт</th></tr>
+                        <tr><td>Ремонт</td><td>Plast R90, Plast FS901, Plast FA902</td></tr>
+                        <tr><td>Рабочая футеровка</td><td>CAST FR94, RAM FA90</td></tr>
+                        <tr><td>Антипригарное покрытие</td><td>FZ910, FZ911</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- СТРАНИЦА: О КОМПАНИИ (с услугами) -->
+    <!-- ============================================================ -->
+    <section id="about" class="page section section-dark">
+        <div class="container">
+            <h2 class="section-title">О компании</h2>
+            <p class="section-subtitle">Firebond — российский производитель огнеупорных материалов для литейной промышленности.</p>
+            <div style="max-width:800px; color:#94a3b8; line-height:1.8;">
+                <p>Мы разрабатываем и производим противопригарные покрытия, футеровочные массы, бетонные и набивные смеси по собственным рецептурам. Вся продукция проходит лабораторный контроль и успешно применяется на крупнейших металлургических заводах России и СНГ.</p>
+                <p style="margin-top:12px;"><strong style="color:#fff;">Наша миссия:</strong> делать литейное производство в России эффективнее, надёжнее и технологичнее.</p>
+                <p style="margin-top:12px;"><strong style="color:#fff;">Производитель:</strong> ООО «Седрус» / Firebond</p>
+            </div>
+            <h3 style="color:#fff; font-size:28px; margin-top:50px;">Сервисы производителя</h3>
+            <p class="section-subtitle" style="margin-bottom:20px;">Мы предоставляем полный комплекс услуг.</p>
+            <div class="services-grid">
+                <div class="service-item"><div class="icon">📄</div><h5>Технические условия</h5><p>Разработка ТУ под заказ</p></div>
+                <div class="service-item"><div class="icon">🔧</div><h5>Кастомизация</h5><p>Адаптация продукта под заказчика</p></div>
+                <div class="service-item"><div class="icon">📋</div><h5>Паспорт качества</h5><p>Полная документация на партию</p></div>
+                <div class="service-item"><div class="icon">📘</div><h5>Инструкция</h5><p>По набивке и спеканию</p></div>
+                <div class="service-item"><div class="icon">🛠️</div><h5>Техподдержка</h5><p>На всех этапах применения</p></div>
+                <div class="service-item"><div class="icon">🔬</div><h5>Контроль качества</h5><p>Шеф-монтаж и лабораторный контроль</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- СТРАНИЦА: КОНТАКТЫ (с правильными должностями) -->
+    <!-- ============================================================ -->
+    <section id="contacts" class="page section section-dark">
+        <div class="container">
+            <h2 class="section-title">Контакты</h2>
+            <p class="section-subtitle">Звоните, пишите — мы на связи. Инженерная поддержка 24/7.</p>
+            <div class="contacts-grid">
+                <div class="contacts-info">
+                    <p><strong>📞 Телефон:</strong> +7 (495) 226-18-53</p>
+                    <p><strong>✉️ E-mail:</strong> info@indastro.ru</p>
+                    <p><strong>📍 Адрес:</strong> 125252, г. Москва, ул. Зорге, д. 28, стр. 1</p>
+                    <p><strong>🌐 Сайт:</strong> indastro.ru</p>
+                    <!-- ПРАВИЛЬНЫЕ ДОЛЖНОСТИ -->
+                    <div class="manager">
+                        <p><strong>👤 Руководитель направления огнеупоры:</strong></p>
+                        <p>Плищенко Максим Сергеевич<br>📞 +7 967 167 44 29<br>✉️ plischenko.ms@cedrus.ru</p>
+                    </div>
+                    <div class="manager">
+                        <p><strong>👤 Менеджер по огнеупорам:</strong></p>
+                        <p>Скоркин Виктор Игоревич<br>📞 +7 999 606 32 21<br>✉️ skorkin.vi@cedrus.ru</p>
+                    </div>
+                    <p style="margin-top:12px; font-size:14px; color:#64748b;">ООО «Седрус» / Firebond</p>
+                </div>
+                <div class="contacts-map">
+                    <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A9f2a3b4c5d6e7f8g9h0i&amp;source=constructor" allowfullscreen loading="lazy"></iframe>
+                    <a href="https://yandex.ru/maps/?text=125252%2C%20Москва%2C%20ул.%20Зорге%2C%2028%20стр.%201" target="_blank" class="map-link">📍 Открыть на карте</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- ФУТЕР -->
+    <!-- ============================================================ -->
+    <footer class="footer">
+        <div class="container">
+            <div><strong style="color:white;">Firebond</strong> — огнеупорные материалы <div class="copy">© 2026 ООО «Седрус»</div></div>
+            <div><a href="#">Политика обработки данных</a></div>
+        </div>
+    </footer>
+
+    <!-- ============================================================ -->
+    <!-- JAVASCRIPT: данные продуктов, навигация -->
+    <!-- ============================================================ -->
+    <script>
+        // ---------- ДАННЫЕ ПРОДУКТОВ (из презентации) ----------
+        const productsData = {
+            'mix-fs98': {
+                name: 'MIX FS98 (0,0–1,2)',
+                badge: 'Сухая кислая',
+                icon: '⚪',
+                desc: 'Сухая кислая кварцитовая масса для футеровки индукционных печей выплавки стали и чугуна. Поставляется с разным содержанием B₂O₃ (0,0; 0,4; 0,6; 0,8; 1,2).',
+                specs: [
+                    ['SiO₂, %', '≥98'],
+                    ['Fe₂O₃, %', '≤0,1'],
+                    ['B₂O₃, %', '0,0–1,2'],
+                    ['Зерновой состав, мм', '0–6'],
+                    ['Остаток на сите 1 мм, %', '23–30'],
+                    ['Температура применения, °C', '1400–1700'],
+                    ['Упаковка', 'Мешок 25 кг']
+                ]
+            },
+            'mix-fs981': {
+                name: 'MIX FS981 (0,0–1,2)',
+                badge: 'Сухая кислая',
+                icon: '⚪',
+                desc: 'Аналог FS98 с улучшенными показателями (SiO₂ ≥98,1%). Для футеровки индукционных печей.',
+                specs: [
+                    ['SiO₂, %', '≥98,1'],
+                    ['Fe₂O₃, %', '≤0,1'],
+                    ['B₂O₃, %', '0,0–1,2'],
+                    ['Зерновой состав, мм', '0–5'],
+                    ['Остаток на сите 1 мм, %', '20–23'],
+                    ['Температура применения, °C', '1400–1700'],
+                    ['Упаковка', 'Мешок 25 кг']
+                ]
+            },
+            'mix-fs982': {
+                name: 'MIX FS982 (0,0–1,2)',
+                badge: 'Сухая кислая',
+                icon: '⚪',
+                desc: 'Кислая кварцитовая масса с добавкой Al₂O₃ до 2%. Рекомендована для высокотемпературной футеровки.',
+                specs: [
+                    ['SiO₂, %', '≥98,2'],
+                    ['Fe₂O₃, %', '≤0,1'],
+                    ['Al₂O₃, %', '≤2'],
+                    ['B₂O₃, %', '0,0–1,2'],
+                    ['Зерновой состав, мм', '0–5'],
+                    ['Остаток на сите 1 мм, %', '27–30'],
+                    ['Температура применения, °C', '1400–1700'],
+                    ['Упаковка', 'Мешок 25 кг']
+                ]
+            },
+            'mix-fs984': {
+                name: 'MIX FS984 (0,0–1,2)',
+                badge: 'Сухая кислая',
+                icon: '⚪',
+                desc: 'Высококремнезёмистая масса (SiO₂ ≥98,4%) для наиболее ответственной футеровки.',
+                specs: [
+                    ['SiO₂, %', '≥98,4'],
+                    ['Fe₂O₃, %', '≤0,1'],
+                    ['B₂O₃, %', '0,0–1,2'],
+                    ['Зерновой состав, мм', '0–5'],
+                    ['Остаток на сите 1 мм, %', '27–30'],
+                    ['Температура применения, °C', '1400–1700'],
+                    ['Упаковка', 'Мешок 25 кг']
+                ]
+            },
+            'mix-fa85m': {
+                name: 'MIX FA85M',
+                badge: 'Нейтральная',
+                icon: '⚪',
+                desc: 'Сухая нейтральная шпинелеобразующая масса для футеровки индукционных печей при выплавке высоколегированных, углеродистых и марганцовистых сталей.',
+                specs: [
+                    ['Al₂O₃, %', '84'],
+                    ['Fe₂O₃, %', '0,1'],
+                    ['MgO, %', '14'],
+                    ['Зерновой состав, мм', '0–6'],
+                    ['Температура применения, °C', 'до 1800'],
+                    ['Упаковка', 'Мешок 25 кг']
+                ]
+            },
+            'inmix93': {
+                name: 'INMIX 93',
+                badge: 'Обмазка',
+                icon: '🧴',
+                desc: 'Сухая бетонная смесь для обмазки катушки индуктора индукционных печей. Обеспечивает электроизоляцию и теплозащиту.',
+                specs: [
+                    ['Расход воды, %', '12–15'],
+                    ['Прочность при сжатии 110°C, МПа', '30'],
+                    ['Прочность при сжатии 1450°C, МПа', '55'],
+                    ['Al₂O₃, %', '93,5'],
+                    ['Fe₂O₃, %', '0,1'],
+                    ['SiO₂, %', '0,2'],
+                    ['Зерновой состав, мм', '0–1'],
+                    ['Температура применения, °C', 'до 1800'],
+                    ['Упаковка', 'Мешок 25 кг']
+                ]
+            },
+            'plast-r90': {
+                name: 'Plast R90',
+                badge: 'Ремонтный',
+                icon: '🔧',
+                desc: 'Высокоглиноземистая пластичная масса для формирования воротника индукционной печи, сливного желоба и ремонта футеровки.',
+                specs: [
+                    ['Al₂O₃, %', '88'],
+                    ['P₂O₅, %', '4,5'],
+                    ['SiO₂, %', '5'],
+                    ['Зерновой состав, мм', '0–3'],
+                    ['Температура применения, °C', 'до 1800'],
+                    ['Упаковка', 'Ведро 20 кг']
+                ]
+            },
+            'plast-fa902': {
+                name: 'Plast FA902',
+                badge: 'Ремонтный',
+                icon: '🔧',
+                desc: 'Мертель огнеупорный корундовый на фосфатном связующем. Для устройства сливных желобов, связки кирпичной кладки и ремонта ИТП.',
+                specs: [
+                    ['Al₂O₃, %', '≥85'],
+                    ['P₂O₅, %', '≤5'],
+                    ['Cr₂O₃, %', '≤6'],
+                    ['SiO₂, %', '≤5'],
+                    ['Температура применения, °C', 'до 1800'],
+                    ['Упаковка', 'Ведро 20 кг']
+                ]
+            },
+            'ram-fa90': {
+                name: 'RAM FA90',
+                badge: 'Набивная',
+                icon: '🧱',
+                desc: 'Масса набивная огнеупорная корундовая на фосфатной связке. Для установки гнездовых блоков, набивки стыков и зазоров.',
+                specs: [
+                    ['Al₂O₃, %', '≥90'],
+                    ['P₂O₅, %', '2,5–3,6'],
+                    ['Fe₂O₃, %', '≤1'],
+                    ['Зерновой состав, проход через сетку №5, %', '≥100'],
+                    ['Проход через сетку №3,2, %', '≥90'],
+                    ['Проход через сетку №1, %', '55–65'],
+                    ['Проход через сетку №0,5, %', '≤55'],
+                    ['Проход через сетку №0,09, %', '35–43'],
+                    ['Температура применения, °C', 'до 1700'],
+                    ['Упаковка', 'Биг-бэг 1000 кг']
+                ]
+            },
+            'cast-fr94': {
+                name: 'CAST FR94',
+                badge: 'Бетонная',
+                icon: '🏗️',
+                desc: 'Смесь бетонная корундовая на гидравлической связке. Для монолитной футеровки стен, свода и пода тепловых агрегатов.',
+                specs: [
+                    ['Al₂O₃, %', '90–94'],
+                    ['CaO, %', '3,0–6,6'],
+                    ['Fe₂O₃, %', '≤0,8'],
+                    ['Зерновой состав, мм', '0–6'],
+                    ['Температура применения, °C', 'до 1700'],
+                    ['Упаковка', 'Мешок 25 кг']
+                ]
+            },
+            'cast-fr941lc': {
+                name: 'CAST FR941 LC',
+                badge: 'Бетонная',
+                icon: '🏗️',
+                desc: 'Корундовая низкоцементная бетонная смесь. Обеспечивает повышенную стойкость и чистоту.',
+                specs: [
+                    ['Al₂O₃, %', '≥95'],
+                    ['CaO, %', '≤1,5'],
+                    ['Fe₂O₃, %', '≤1,0'],
+                    ['Зерновой состав, мм', '0–7'],
+                    ['Температура применения, °C', 'до 1700'],
+                    ['Упаковка', 'Мешок 25 кг']
+                ]
+            },
+            'fz911': {
+                name: 'Protect FZ911',
+                badge: 'Флагман',
+                icon: '🔥',
+                desc: 'Циркон-спиртовое покрытие для среднего и крупного стального литья. Обеспечивает глубокое проникновение и высокую огнеупорность.',
+                specs: [
+                    ['Плотность при 20°C, г/см³', '1,8–2,3'],
+                    ['Вязкость (ВЗ-4), с', '21–25'],
+                    ['Седиментационная устойчивость, %', '≥98'],
+                    ['Способ нанесения', 'Распыление, кисть'],
+                    ['Срок хранения', '6 месяцев'],
+                    ['Упаковка', 'Ведро 30 кг']
+                ]
+            },
+            'fz910': {
+                name: 'Protect FZ910',
+                badge: 'Проверено',
+                icon: '⚙️',
+                desc: 'Циркон-спиртовое покрытие для малого и среднего стального и чугунного литья. Простой и надёжный вариант.',
+                specs: [
+                    ['Плотность при 20°C, г/см³', '≥1,45'],
+                    ['Вязкость (ВЗ-4), с', '≥20'],
+                    ['Седиментационная устойчивость, %', '≥98'],
+                    ['Способ нанесения', 'Кисть, распыление, погружение'],
+                    ['Срок хранения', '6 месяцев'],
+                    ['Упаковка', 'Ведро 30 кг']
+                ]
+            }
+        };
+
+        // ---------- ОТРИСОВКА ПРОДУКТОВ ----------
+        function renderProducts() {
+            const container = document.getElementById('product-list');
+            container.innerHTML = '';
+            for (const [key, product] of Object.entries(productsData)) {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.setAttribute('data-product', key);
+                card.innerHTML = `
+                    <div class="badge">${product.badge}</div>
+                    <div class="icon">${product.icon}</div>
+                    <h4>${product.name}</h4>
+                    <p>${product.desc.slice(0, 70)}…</p>
+                    <div class="specs">
+                        <span>${product.specs[0] ? product.specs[0].join(' ') : ''}</span>
+                        <span>${product.specs[product.specs.length-1] ? product.specs[product.specs.length-1].join(' ') : ''}</span>
+                    </div>
+                `;
+                card.addEventListener('click', () => {
+                    showProduct(key);
+                });
+                container.appendChild(card);
+            }
+        }
+
+        function showProduct(key) {
+            const product = productsData[key];
+            if (!product) return;
+            const container = document.getElementById('product-detail-content');
+            const detailBlock = document.getElementById('product-detail');
+            const listBlock = document.getElementById('product-list');
+
+            let specsHtml = '';
+            product.specs.forEach(s => {
+                specsHtml += `
+                    <div class="item">
+                        <span class="label">${s[0]}</span>
+                        <span class="value">${s[1]}</span>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = `
+                <h2>${product.icon} ${product.name}</h2>
+                <div class="badge" style="display:inline-block; background:#c44536; color:white; font-size:11px; font-weight:700; padding:2px 12px; border-radius:30px; margin-bottom:10px;">${product.badge}</div>
+                <div class="desc">${product.desc}</div>
+                <div class="detail-grid">${specsHtml}</div>
+            `;
+
+            listBlock.style.display = 'none';
+            detailBlock.style.display = 'block';
+            detailBlock.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            // Обновляем хэш для детального продукта
+            window.location.hash = 'product-' + key;
+        }
+
+        function hideProduct() {
+            document.getElementById('product-detail').style.display = 'none';
+            document.getElementById('product-list').style.display = 'grid';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            // Убираем хэш продукта, но оставляем страницу продуктов
+            window.location.hash = 'products';
+        }
+
+        // ---------- НАВИГАЦИЯ (спа-стиль) ----------
+        function showPage(pageId) {
+            // Скрыть все страницы
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            const target = document.getElementById(pageId);
+            if (target) target.classList.add('active');
+
+            // Обновить активную ссылку в навигации
+            document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+            const navLink = document.querySelector(`.nav-links a[data-page="${pageId}"]`);
+            if (navLink) navLink.classList.add('active');
+
+            // Если переключаемся на страницу продуктов — скрываем детальную карточку и показываем список
+            if (pageId === 'products') {
+                document.getElementById('product-detail').style.display = 'none';
+                document.getElementById('product-list').style.display = 'grid';
+            }
+
+            // Обновляем хэш (без прокрутки)
+            if (window.location.hash !== '#' + pageId) {
+                history.pushState(null, '', '#' + pageId);
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ---------- ОБРАБОТКА ХЭША ПРИ ЗАГРУЗКЕ ----------
+        function handleHash() {
+            const hash = window.location.hash.replace('#', '');
+            if (hash.startsWith('product-')) {
+                const productKey = hash.replace('product-', '');
+                // Переключаемся на страницу продуктов, затем открываем продукт
+                showPage('products');
+                // Даём время отрисоваться списку, затем открываем детали
+                setTimeout(() => {
+                    if (productsData[productKey]) {
+                        showProduct(productKey);
+                    }
+                }, 100);
+            } else if (hash && document.getElementById(hash)) {
+                showPage(hash);
+            } else {
+                showPage('home');
+            }
+        }
+
+        // ---------- ИСКРЫ ----------
+        (function createSparks() {
+            const container = document.getElementById('sparksContainer');
+            if (!container) return;
+            const count = 120;
+            for (let i = 0; i < count; i++) {
+                const spark = document.createElement('div');
+                spark.className = 'spark';
+                const size = 2 + Math.random() * 7;
+                const x = Math.random() * 100;
+                const duration = 4 + Math.random() * 10;
+                const delay = Math.random() * 10;
+                spark.style.width = size + 'px';
+                spark.style.height = size + 'px';
+                spark.style.left = x + '%';
+                spark.style.animationDuration = duration + 's';
+                spark.style.animationDelay = delay + 's';
+                spark.style.opacity = 0.4 + Math.random() * 0.6;
+                spark.style.background = `hsl(${30 + Math.random() * 30}, 100%, ${65 + Math.random() * 35}%)`;
+                container.appendChild(spark);
+            }
+        })();
+
+        // ---------- ИНИЦИАЛИЗАЦИЯ ----------
+        window.addEventListener('load', function() {
+            renderProducts();
+            handleHash();
+        });
+
+        // Обработка изменения хэша вручную (при клике "назад" в браузере)
+        window.addEventListener('hashchange', function() {
+            handleHash();
+        });
+    </script>
+</body>
+</html>
